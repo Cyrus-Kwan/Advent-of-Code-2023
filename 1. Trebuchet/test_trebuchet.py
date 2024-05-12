@@ -3,6 +3,9 @@ import trebuchet
 import re
 
 class TestTrebuchet(unittest.TestCase):
+    '''
+    Unit tests for trebuchet.py functions
+    '''
     def test_first_digit(self):
         self.assertEqual(trebuchet.first_digit("1abc2"), "1")
         self.assertEqual(trebuchet.first_digit("pqr3stu8vwx"), "3")
@@ -35,6 +38,9 @@ class TestTrebuchet(unittest.TestCase):
         self.assertEqual(trebuchet.sub_words("7pqrstsixteen"), "76")
 
     def test_answer(self):
+        # Checked own solution to HyperNeutrino's solution on youtube:
+        #   https://www.youtube.com/watch?v=y-kOUFrHaKs
+        
         n = "one two three four five six seven eight nine".split()
         p = "(?=(" + "|".join(n) + "|\\d" + "))"
 
@@ -44,22 +50,6 @@ class TestTrebuchet(unittest.TestCase):
             for line in lines:
                 digits = [*map(f, re.findall(p, line))]
                 self.assertEqual(trebuchet.answer(line), int(digits[0]+digits[-1]))
-
-def answer():
-    t=0
-    n = "one two three four five six seven eight nine".split()
-    p = "(?=(" + "|".join(n) + "|\\d" + "))"
-
-    def f(x):
-        if x in n:
-            return str(n.index(x) + 1)
-        return x
-
-    for x in open(current_dir()+"calibrations"):
-        digits = [*map(f, re.findall(p, x))]
-        t += int(digits[0] + digits[-1])
-
-    return t
 
 if __name__ == "__main__":
     unittest.main()
