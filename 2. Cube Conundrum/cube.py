@@ -49,6 +49,27 @@ class Game():
 
         return True
 
+    def max_set(self):
+        '''
+        Returns a dictionary containing the maximum number of cubes for each color
+        '''
+        max_set:dict = {"red":1, "green":1, "blue":1}
+        for game_set in self.game_sets:
+            for color in game_set.keys():
+                if game_set[color] > max_set[color]:
+                    max_set[color] = game_set[color]
+        return max_set
+
+    def get_power(self):
+        '''
+        Returns the product of each color in the max set of the game
+        '''
+        power = 1
+        for color in self.max_set().keys():
+            power *= self.max_set()[color]
+
+        return power
+
 def _part_one():
     '''
     Solution for part one
@@ -65,6 +86,20 @@ def _part_one():
 
     return game_sum
 
+def _part_two():
+    '''
+    Solution for part two
+    '''
+    directory = current_dir()
+    with open(f"{directory}games", "r") as file_handle:
+        lines:list[str] = file_handle.read().split("\n")
+        sum_power = 0
+        for line in lines:
+            new_game = Game(line)
+            sum_power += new_game.get_power()
+
+    return sum_power
+
 def current_dir():
     '''
     Returns the current directory of __main__
@@ -77,6 +112,7 @@ def current_dir():
 def main():
     directory = current_dir()
     print(_part_one())
+    print(_part_two())
 
 if __name__ == "__main__":
     main()
