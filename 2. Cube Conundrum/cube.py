@@ -1,17 +1,26 @@
 import re
 
 class Game():
+    '''
+    Class object created for each line in game data
+    '''
     def __init__(self, input_string:str):
         self.input_string:str = input_string
         self.game_number:int = self.get_game()
         self.game_sets:list[dict] = self.get_sets()
 
     def get_game(self):
+        '''
+        Returns the game number as an integer value
+        '''
         pattern:str = r"\d+(?=:)"
         game_number = re.search(pattern, self.input_string)[0]
         return int(game_number)
 
     def get_sets(self):
+        '''
+        Returns a list of dictionaries where each color contains the corresponding number of cubes that were revealed
+        '''
         pattern:str = "[:;]"
         game_sets:list[str] = re.split(pattern, self.input_string)
         sets:list[dict] = []
@@ -30,6 +39,9 @@ class Game():
         return sets
 
     def game_possible(self, valid_set:list[dict]):
+        '''
+        Returns a boolean true or false value based on whether the game was valid
+        '''
         for game_set in self.game_sets:
             for color in game_set.keys():
                 if (game_set[color] > valid_set[color]) or (game_set[color] < 0):
@@ -38,6 +50,9 @@ class Game():
         return True
 
 def _part_one():
+    '''
+    Solution for part one
+    '''
     directory = current_dir()
     possible = {"red":12, "green":13, "blue":14}
     with open(f"{directory}games", "r") as file_handle:
