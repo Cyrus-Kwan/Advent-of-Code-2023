@@ -15,8 +15,8 @@ class Number():
 
     def get_columns(self, line:list[str], column:int):
         columns:list[int] = [column]
-        start = []
-        end = []
+        start:list[int] = []
+        end:list[int] = []
 
         for i in range(len(line[column::-1])):
             if line[column-i].isdigit():
@@ -33,16 +33,16 @@ class Number():
         return set(start+end)
 
     def get_value(self, matrix:list[list], column:int):
-        line = "".join(matrix[self.rows])
+        line:str = "".join(matrix[self.rows])
 
-        pattern = r"\d*"
-        start = re.match(pattern, line[column-1::-1])[0] or ""
+        pattern:str = r"\d*"
+        start:str = re.match(pattern, line[column-1::-1])[0] or ""
         start = start[::-1]
-        end = re.match(pattern, line[column:])[0] or ""
+        end:str = re.match(pattern, line[column:])[0] or ""
         return int(start+end)
 
     def is_part(self, matrix:list[list]):
-        pattern = r"[^\s\d.]"
+        pattern:str = r"[^\s\d.]"
         for column in self.columns:
             for i in [-1, 0, 1]:
                 for j in [-1, 0, 1]:
@@ -57,7 +57,7 @@ def matrix(matrix_input:str):
     matrix:list[list] = []
     lines:list[str] = matrix_input.splitlines()
     for line in lines:
-        chars = [char for char in line]
+        chars:str = [char for char in line]
         matrix.append(chars)
 
     return matrix
@@ -65,12 +65,12 @@ def matrix(matrix_input:str):
 def part_one():
     directory = current_dir()
     with open(f"{directory}gears") as file_handle:
-        gears = matrix(file_handle.read())
-        nums = []
+        gears:str = matrix(file_handle.read())
+        nums:list[int] = []
         for row in range(len(gears)):
             for column in range(len(gears[row])):
                 try:
-                    new_num = Number(gears, row, column)
+                    new_num:Number = Number(gears, row, column)
                     if (new_num not in nums) and new_num.part:
                         nums.append(new_num)
                 except ValueError:
